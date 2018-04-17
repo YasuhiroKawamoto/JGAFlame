@@ -7,7 +7,7 @@ namespace Extensions
     /// <summary>
     /// Vector3の拡張
     /// </summary>
-    public static class Vector3Extensions
+    public static class Vector3Ex
     {
         /// <summary>
         /// 一番近くの座標を取得
