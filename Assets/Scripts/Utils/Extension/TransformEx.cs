@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class TransformEx {
+public static class TransformEx
+{
 
     /// <summary>
     /// 子に設定
@@ -15,7 +16,7 @@ public static class TransformEx {
 
     /// <summary>
     /// 全ての子を取得
-    /// </summary>
+    /// /// </summary>
     /// <param name="transform"></param>
     /// <returns></returns>
     public static GameObject[] GetAllChild(this Transform transform)

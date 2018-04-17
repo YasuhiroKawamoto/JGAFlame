@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonoBehaviourEx : MonoBehaviour {
+public class MonoBehaviourEx : MonoBehaviour
+{
 
     /// <summary>
     /// X座標
