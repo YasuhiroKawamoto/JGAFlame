@@ -5,6 +5,7 @@ Temp/
 Obj/
 UnityGenerated/
 Library/
+.vscode/
 
 # ===================================== #
 # Visual Studio / MonoDevelop generated #
