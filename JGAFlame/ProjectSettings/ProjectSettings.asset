@@ -4,7 +4,7 @@
 PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 14
-  productGUID: eb5811891071b9d47a8b0ba023d73419
+  productGUID: 700ca0b34a50d864481441b369145681
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
   defaultScreenOrientation: 4
@@ -630,12 +630,11 @@ PlayerSettings:
     daydream:
       daydreamIconForeground: {fileID: 0}
       daydreamIconBackground: {fileID: 0}
-  cloudServicesEnabled:
-    UNet: 1
+  cloudServicesEnabled: {}
   facebookSdkVersion: 7.9.4
   apiCompatibilityLevel: 2
-  cloudProjectId: 4726694e-52bb-4a30-987f-2b67f10532ce
-  projectName: JGAFlame
+  cloudProjectId: 1dda551c-480b-44e7-bce9-d2062ecd1bde
+  projectName: JGAFlame (1)
   organizationId: void000
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
