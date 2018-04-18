@@ -2,73 +2,76 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// MonoBehaviourを継承したシングルトン
-/// </summary>
-public class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBehaviour
+namespace Util
 {
     /// <summary>
-    /// インスタンス
+    /// MonoBehaviourを継承したシングルトン
     /// </summary>
-    private static volatile T _instance;
-
-    /// <summary>
-    /// 同期オブジェクト
-    /// </summary>
-    private static object _syncObj = new object();
-
-    /// <summary>
-    /// インスタンスのgetter/setter
-    /// </summary>
-    public static T Instance
+    public class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBehaviour
     {
-        get
+        /// <summary>
+        /// インスタンス
+        /// </summary>
+        private static volatile T _instance;
+
+        /// <summary>
+        /// 同期オブジェクト
+        /// </summary>
+        private static object _syncObj = new object();
+
+        /// <summary>
+        /// インスタンスのgetter/setter
+        /// </summary>
+        public static T Instance
         {
-            // インスタンスがない場合に探す
-            if (_instance == null)
+            get
             {
-                _instance = FindObjectOfType<T>() as T;
-
-                // 複数のインスタンスがあった場合
-                if (FindObjectsOfType<T>().Length > 1)
-                {
-                    return _instance;
-                }
-
-                // Findで見つからなかった場合、新しくオブジェクトを生成
+                // インスタンスがない場合に探す
                 if (_instance == null)
                 {
-                    // 同時にインスタンス生成を呼ばないためにlockする
-                    lock (_syncObj)
+                    _instance = FindObjectOfType<T>() as T;
+
+                    // 複数のインスタンスがあった場合
+                    if (FindObjectsOfType<T>().Length > 1)
                     {
-                        var singleton = new GameObject();
+                        return _instance;
+                    }
 
-                        // シングルトンオブジェクトだと分かりやすいように名前を設定
-                        singleton.name = typeof(T).ToString() + " (Singleton)";
+                    // Findで見つからなかった場合、新しくオブジェクトを生成
+                    if (_instance == null)
+                    {
+                        // 同時にインスタンス生成を呼ばないためにlockする
+                        lock (_syncObj)
+                        {
+                            var singleton = new GameObject();
 
-                        _instance = singleton.AddComponent<T>();
-                        
-                        // シーン変更時に破棄させない
-                        DontDestroyOnLoad(singleton);
+                            // シングルトンオブジェクトだと分かりやすいように名前を設定
+                            singleton.name = typeof(T).ToString() + " (Singleton)";
+
+                            _instance = singleton.AddComponent<T>();
+
+                            // シーン変更時に破棄させない
+                            DontDestroyOnLoad(singleton);
+                        }
                     }
                 }
+                return _instance;
             }
-            return _instance;
+            private set
+            {
+                _instance = value;
+            }
         }
-        private set
+
+        /// <summary>
+        /// インスタンスの破棄
+        /// </summary>
+        void OnDestroy()
         {
-            _instance = value;
+            Instance = null;
         }
-    }
 
-    /// <summary>
-    /// インスタンスの破棄
-    /// </summary>
-    void OnDestroy()
-    {
-        Instance = null;
+        // インスタンスを生成出来なくする
+        protected SingletonMonoBehaviour() { }
     }
-
-    // インスタンスを生成出来なくする
-    protected SingletonMonoBehaviour() { }
 }
