@@ -6,14 +6,24 @@ namespace Util.Trello
     // Trelloのカードクラス
     public class TrelloCard
     {
+        // タイトル名
+        public string name = string.Empty;
 
-        public string name = "";
-        public string desc = "";
+        // 説明
+        public string desc = string.Empty;
+
+        // 日程
         public string due = "null";
-        public string idList = "";
+
+        // 送付URL
         public string urlSource = "null";
+
+        // 送付ファイル
         public byte[] fileSource = null;
+
+        // ファイル名
         public string fileName = null;
+
         // コンストラクタ
         public TrelloCard()
         {

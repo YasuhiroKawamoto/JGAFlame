@@ -11,11 +11,11 @@ namespace Util.Trello
     {
         // 開発者用Key
         [SerializeField]
-        private string _key = "e56955027d3957ca44fcc1e28f8d3d3d";
+        private string _key = string.Empty;
 
         // 開発者用Token
         [SerializeField]
-        private string _token = "8fb47725e86476f03ac61c230afb233d2a24e0b59176ad178d0850b76049fdfd";
+        private string _token = string.Empty;
 
         // 投稿するボード名
         [SerializeField]
@@ -31,28 +31,17 @@ namespace Util.Trello
         // Trello のAPIクラス
         Trello _trello = null;
 
+        // 読み込みフラグ
         public bool IsLoading { get; set; }
 
         /// <summary>
         /// 初期化
         /// </summary>
         /// <returns></returns>
-        private IEnumerator Start()
+        private void Start()
         {
-            IsLoading = true;
-
             // API用クラス作成
             _trello = new Trello(_key, _token);
-
-            // ボードの設定
-            yield return _trello.PopulateBoards();
-            _trello.SetCurrentBoard(_boardName);
-
-            // リストの設定
-            yield return _trello.PopulateLists();
-            _trello.SetCurrentList(_listName);
-
-            IsLoading = false;
         }
 
         /// <summary>
@@ -67,17 +56,37 @@ namespace Util.Trello
         /// <summary>
         /// Trelloカードを送信
         /// </summary>
-        /// <param name="card">Trello card to send.</param>
-        /// <param name="list">Overrides default list.</param>
-        /// <param name="board">Overrides default board.</param>
-        public void SendCard(TrelloCard card)
+        /// <param name="card">送信するカード</param>
+        /// <returns>作成したかしていないか</returns> 
+        public bool SendCard(TrelloCard card)
         {
+            if (IsLoading)
+            {
+                return false;
+            }
+
+            // 送信開始
             StartCoroutine(SendCardInternal(card, _boardName, _listName));
+
+            return true;
         }
 
-        public void SendCardScreenShot(TrelloCard card)
+        /// <summary>
+        /// Trelloカードを送信
+        /// </summary>
+        /// <param name="card">送信するカード</param>
+        /// <returns>作成したかしていないか</returns> 
+        public bool SendCardScreenShot(TrelloCard card)
         {
+            if (IsLoading)
+            {
+                return false;
+            }
+
+            // 送信開始
             StartCoroutine(SendCardScreenShotInternal(card));
+
+            return true;
         }
 
         /// <summary>
@@ -86,9 +95,7 @@ namespace Util.Trello
         /// <returns></returns>
         private IEnumerator SendCardScreenShotInternal(TrelloCard card)
         {
-            // 時間設定
-            card.due = DateTime.Now.ToString();
-
+            // JPGの作成
             StartCoroutine(UploadJPG());
 
             // テクスチャ待ち
@@ -96,6 +103,8 @@ namespace Util.Trello
             {
                 yield return null;
             }
+
+            // カードにファイルの設定
             card.fileSource = file;
             card.fileName = DateTime.UtcNow.ToString() + ".jpg";
 
@@ -112,6 +121,7 @@ namespace Util.Trello
         /// <returns></returns>
         private IEnumerator SendCardInternal(TrelloCard card, string board, string list)
         {
+            // 読み込み開始
             IsLoading = true;
 
             // ボードの設定
@@ -125,6 +135,7 @@ namespace Util.Trello
             // カードの送信
             yield return _trello.UploadCard(card);
 
+            // 読み込み終了
             IsLoading = false;
         }
 
