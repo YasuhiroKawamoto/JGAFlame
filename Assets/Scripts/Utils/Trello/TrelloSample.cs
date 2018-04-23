@@ -4,10 +4,8 @@ using UnityEngine;
 using System;
 using Util.Trello;
 
-
 public class TrelloSample : MonoBehaviour
 {
-
     private void Start()
     {
         var manager = TrelloManager.Instance;
