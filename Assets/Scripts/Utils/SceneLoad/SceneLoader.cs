@@ -7,8 +7,10 @@ namespace Util
 {
 	public class SceneLoader : MonoBehaviour
 	{
+		// 非同期ロードのシーン
 		private AsyncOperation _async;
 
+		// 読み込み状況(読み込み時true)
 		public bool IsLoading { get; private set; }
 
 		/// <summary>

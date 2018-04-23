@@ -9,9 +9,11 @@ namespace Util
 	/// </summary>
 	public class AsyncLoadSample : MonoBehaviour
 	{
+		// 遷移する際押すマウスの対応した番号
 		[SerializeField]
 		private int _button = 0;
 
+		// 遷移するシーンの名前
 		[SerializeField]
 		private string _sceneName = string.Empty;
 
