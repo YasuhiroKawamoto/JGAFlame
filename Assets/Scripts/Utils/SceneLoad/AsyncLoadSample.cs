@@ -4,41 +4,36 @@ using UnityEngine;
 
 namespace Util
 {
-	/// <summary>
-	/// シーンロードのサンプル
-	/// </summary>
-	public class AsyncLoadSample : MonoBehaviour
-	{
-		// 遷移する際押すマウスの対応した番号
-		[SerializeField]
-		private int _button = 0;
+    /// <summary>
+    /// シーンロードのサンプル
+    /// </summary>
+    public class AsyncLoadSample : MonoBehaviour
+    {
+        // 初期ディスプレイ
+        [SerializeField]
+        private Display.DisplayBase _initDisplay = null;
 
-		// 遷移するシーンの名前
-		[SerializeField]
-		private string _sceneName = string.Empty;
+        // 遷移する際押すマウスの対応した番号
+        [SerializeField]
+        private int _button = 0;
 
-		void Update()
-		{
-			if (Input.GetMouseButtonDown(_button))
-			{
-				// 呼び出しはこれ
-				StartCoroutine(Sceneload());
-			}
-		}
+        // 遷移するシーンの名前
+        [SerializeField]
+        private string _sceneName = string.Empty;
 
-		private IEnumerator Sceneload()
-		{
-			// ローダーを作成 Monobehaviour なので new は不可
-			var load = gameObject.AddComponent<SceneLoader>();
+        private void Awake()
+        {
+            // 初期ディスプレイ
+            Display.DisplayManager.Instance.ChangeDisplay(_initDisplay);
+        }
 
-			// 読み込み開始
-			load.LoadStart(_sceneName);
-
-			// 読み込み待ち
-			yield return new WaitUntil(() => load.IsLoading == false);
-
-			// シーンの変更
-			load.ChangeScene();
-		}
-	}
+        void Update()
+        {
+            if (Input.GetMouseButtonDown(_button))
+            {
+                // 呼び出しはこれ
+                Scene.SceneManager.Instance.ChangeScene(_sceneName);
+            }
+        }
+    }
 }
