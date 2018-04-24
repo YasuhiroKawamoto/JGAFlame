@@ -20,6 +20,11 @@ namespace Util
 
         // 現在の状態
         private bool _isFading = false;
+        public bool IsFading
+        {
+            get { return _isFading; }
+            private set { _isFading = value; }
+        }
 
         // フェードの色
         public Color _fadeColor = Color.black;
@@ -47,7 +52,7 @@ namespace Util
         public IEnumerator FadeIn(float interval)
         {
             // Fade 開始
-            this._isFading = true;
+            this.IsFading = true;
 
             float time = 0.0f;
 
@@ -59,7 +64,7 @@ namespace Util
             }
 
             // フェード終わり
-            this._isFading = false;
+            this.IsFading = false;
         }
         /// <param name="callback"></param>
         public IEnumerator FadeIn(float interval, Callback callback = null)
@@ -82,7 +87,7 @@ namespace Util
         public IEnumerator FadeOut(float interval)
         {
             // フェード開始
-            this._isFading = true;
+            this.IsFading = true;
 
             float time = 0.0f;
 
@@ -94,7 +99,7 @@ namespace Util
             }
 
             // フェード終わり
-            this._isFading = false;
+            this.IsFading = false;
         }
         /// <param name="callback"></param>
         public IEnumerator FadeOut(float interval, Callback callback = null)

@@ -45,21 +45,22 @@ namespace Util.Scene
             // ローダーを作成 Monobehaviour なので new は不可
             var load = gameObject.AddComponent<SceneLoader>();
 
-            // フェード
-            yield return StartCoroutine(FadeManager.Instance.FadeIn(inInterval));
-
             // 読み込み開始
             load.LoadStart(sceneName);
+
+            // フェード
+            yield return StartCoroutine(FadeManager.Instance.FadeIn(inInterval));
 
             // 読み込み待ち
             yield return new WaitUntil(() => load.IsLoading == false);
 
-            // フェードアウト
-            StartCoroutine(FadeManager.Instance.FadeOut(outInterval));
-
             // シーンの変更
             load.ChangeScene();
 
+            // フェードアウト
+            StartCoroutine(FadeManager.Instance.FadeOut(outInterval));
+
+            GameObject.Destroy(load);
         }
     }
 }
