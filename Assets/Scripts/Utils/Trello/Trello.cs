@@ -11,13 +11,17 @@ namespace Util.Trello
     public class Trello
     {
         // Trello から発行されたToken
-        private string _token;
+        private string _token = string.Empty;
+
         // Trello から発行されたKey
-        private string _key;
+        private string _key = string.Empty;
+
         // ボード
         private List<object> _boards;
+
         // ボードのリスト
         private List<object> _lists;
+
         // URL関連
         private const string _memberBaseUrl = "https://api.trello.com/1/members/me";
         private const string _boardBaseUrl = "https://api.trello.com/1/boards/";
@@ -25,6 +29,7 @@ namespace Util.Trello
 
         // 現在のボードID
         private string _currentBoardId = string.Empty;
+
         // 現在のリストID
         private string _currentListId = string.Empty;
 
@@ -46,7 +51,6 @@ namespace Util.Trello
         /// <param name="www">リクエストするオブジェクト</param>
         private void CheckWebRequestStatus(string errorMessage, UnityWebRequest www)
         {
-
             if (www.isNetworkError || www.isHttpError)
             {
                 throw new TrelloException(errorMessage + ": " + www.error + "(" + www.downloadHandler.text + ")");
@@ -169,13 +173,7 @@ namespace Util.Trello
         /// <returns>カードオブジェクト</returns>
         public TrelloCard NewCard()
         {
-            if (_currentListId == "")
-            {
-                throw new TrelloException("ボードからリストを設定していないためカードを作成できません。");
-            }
-
             var card = new TrelloCard();
-            card.idList = _currentListId;
             return card;
         }
 
@@ -190,7 +188,6 @@ namespace Util.Trello
             card.name = e.GetType().ToString();
             card.due = DateTime.Now.ToString();
             card.desc = e.Message;
-            card.idList = _currentListId;
 
             return UploadCard(card);
         }
@@ -206,7 +203,7 @@ namespace Util.Trello
             post.AddField("name", card.name);
             post.AddField("desc", card.desc);
             post.AddField("due", card.due);
-            post.AddField("idList", card.idList);
+            post.AddField("idList", _currentListId);
             post.AddField("urlSource", card.urlSource);
 
             if (card.fileSource != null && card.fileName != null)
